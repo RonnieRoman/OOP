@@ -92,10 +92,5 @@ int main() {
     cout << "\nДані деталі 2:\n";
     detail2.displayDetail();
 
-    // Зміна даних для деталі 1
-    detail1.setDetail("Масляний фільтр", "OIL567", 250.75);
-    cout << "\nЗмінені дані деталі 1:\n";
-    detail1.displayDetail();
-
     return 0;
 }
