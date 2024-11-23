@@ -20,7 +20,7 @@ public:
         cout << "Введіть назву деталі: ";
         getline(cin,name);
         cout << "Введіть артикул деталі: ";
-        getline(cin, article);
+        cin >> article;
 
         // Введення і перевірка ціни
         do {
