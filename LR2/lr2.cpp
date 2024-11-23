@@ -1,8 +1,10 @@
 #include <iostream>
-#include <math.h>  
+#include <cmath>
+#include <limits>
 
+// Функції обчислення
 double First(double a, double x) {
-    return cbrt(pow(a, 2) + pow(3 * x, 2));
+    return cbrt(pow(a, 2) + 3 * pow(x, 2));
 }
 
 double Second(double a, double b, double x) {
@@ -10,10 +12,11 @@ double Second(double a, double b, double x) {
 }
 
 double Third(double a, double b, double x) {
-    double e = 2.718;
+    const double e = 2.718;
     return pow(e, a * x) - pow(x, 4);
 }
 
+// Основна функція для обчислення результату
 void calculateResult(double a, double b, double x) {
     double result;
 
@@ -21,7 +24,6 @@ void calculateResult(double a, double b, double x) {
         result = First(a, x);
     }
     else if (b <= x && x <= b + 1) {
-        // Перевірка на випадок, коли x = b
         if (x == b) {
             std::cout << "Результат: нескінченність (оскільки log(0) → ∞ при x = b)" << std::endl;
             return;
@@ -35,17 +37,29 @@ void calculateResult(double a, double b, double x) {
     std::cout << "Відповідь: " << result << std::endl;
 }
 
-int main() {
-    double a;
-    double b;
-    double x;
+// Функція для безпечного вводу чисел
+double safeInput(const std::string& prompt) {
+    double value;
+    while (true) {
+        std::cout << prompt;
+        std::cin >> value;
 
-    std::cout << "Введіть число a: ";
-    std::cin >> a;
-    std::cout << "Введіть число b: ";
-    std::cin >> b;
-    std::cout << "Введіть число x: ";
-    std::cin >> x;
+        if (std::cin.fail()) {
+            std::cin.clear(); // Скидання стану потоку
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Пропуск некоректного вводу
+            std::cout << "Помилка вводу! Будь ласка, введіть число.\n";
+        } else {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Очищення зайвого вводу
+            return value;
+        }
+    }
+}
+
+int main() {
+    // Вводимо змінні з перевіркою
+    double a = safeInput("Введіть число a: ");
+    double b = safeInput("Введіть число b: ");
+    double x = safeInput("Введіть число x: ");
 
     calculateResult(a, b, x);
 
