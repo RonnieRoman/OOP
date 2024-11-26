@@ -1,6 +1,6 @@
 #include "RealNumber.h"
 #include <iostream>
-#include <cmath>  // Для роботи з дробовою частиною
+#include <cmath>
 
 // Конструктор
 RealNumber::RealNumber(double v) : value(v) {}
@@ -15,7 +15,18 @@ double RealNumber::getValue() const {
 
 // Оператор порівняння >
 bool RealNumber::operator>(const RealNumber& other) const {
-    return static_cast<int>(this->value) > static_cast<int>(other.value);  // Порівнюємо цілу частину
+    int thisIntPart = static_cast<int>(this->value);
+    int otherIntPart = static_cast<int>(other.value);
+
+    // Спершу порівнюємо цілі частини
+    if (thisIntPart != otherIntPart) {
+        return thisIntPart > otherIntPart;
+    }
+
+    // Якщо цілі частини однакові, порівнюємо дробові частини
+    double thisFractionalPart = this->value - thisIntPart;
+    double otherFractionalPart = other.value - otherIntPart;
+    return thisFractionalPart > otherFractionalPart;
 }
 
 // Оператор []
@@ -30,10 +41,9 @@ void RealNumber::print() const {
 
 // Статичний метод для сортування масиву за спаданням
 void RealNumber::sortArray(RealNumber arr[], int size) {
-    // Сортуємо за спаданням цілої частини числа
     for (int i = 0; i < size - 1; ++i) {
         for (int j = i + 1; j < size; ++j) {
-            if (!(arr[i] > arr[j])) {  
+            if (!(arr[i] > arr[j])) {  // Використовуємо змінений оператор порівняння
                 RealNumber temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
