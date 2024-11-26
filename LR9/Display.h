@@ -1,6 +1,7 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
+#include "Pasazhyr.h"
 #include "Poizd.h"
 #include "Avtobus.h"
 #include <iostream>
@@ -11,14 +12,13 @@ public:
         std::cout << "\nПеревезення: " << p.getName() << "\n"
                   << "Вартість: " << p.getCost() << "\n"
                   << "Тривалість: " << p.getDuration() << " годин\n";
-    }
 
-    void showPassengers(const Poizd& poizd) {
-        std::cout << "Кількість пасажирів у поїзді: " << poizd.getPassengers() << std::endl;
-    }
-
-    void showPassengers(const Avtobus& avtobus) {
-        std::cout << "Кількість пасажирів в автобусі: " << avtobus.getPassengers() << std::endl;
+        // Виведення кількості пасажирів залежно від типу об'єкта
+        if (const auto* poizd = dynamic_cast<const Poizd*>(&p)) {
+            std::cout << "Кількість пасажирів у поїзді: " << poizd->getPassengers() << std::endl;
+        } else if (const auto* avtobus = dynamic_cast<const Avtobus*>(&p)) {
+            std::cout << "Кількість пасажирів в автобусі: " << avtobus->getPassengers() << std::endl;
+        }
     }
 };
 
