@@ -33,7 +33,7 @@ void RealNumber::sortArray(RealNumber arr[], int size) {
     // Сортуємо за спаданням цілої частини числа
     for (int i = 0; i < size - 1; ++i) {
         for (int j = i + 1; j < size; ++j) {
-            if (!(arr[i] > arr[j])) {  // Змінений порядок порівняння для спадання
+            if (!(arr[i] > arr[j])) {  
                 RealNumber temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
