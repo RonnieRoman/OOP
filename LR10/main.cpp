@@ -3,7 +3,7 @@
 
 int main() {
     // Масив дійсних чисел
-    RealNumber arr[] = { RealNumber(4.5), RealNumber(3.14), RealNumber(5.99), RealNumber(2.25) };
+    RealNumber arr[] = { RealNumber(4.5), RealNumber(3.14), RealNumber(5.99), RealNumber(2.25), RealNumber(3.21), RealNumber(3.01) };
     int size = sizeof(arr) / sizeof(arr[0]);
 
     std::cout << "До сортування:" << std::endl;
@@ -11,7 +11,7 @@ int main() {
         arr[i].print();
     }
 
-    // Сортуємо масив за спаданням цілої частини
+    // Сортуємо масив за спаданням
     RealNumber::sortArray(arr, size);
 
     std::cout << "\nПісля сортування:" << std::endl;
