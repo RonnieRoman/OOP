@@ -4,7 +4,7 @@
 #include "Pasazhyr.h"
 #include "Poizd.h"
 #include "Avtobus.h"
-#include "display.h"
+#include "Display.h"
 
 int main() {
     std::vector<Pasazhyr*> pasazhyrList;
@@ -56,12 +56,7 @@ int main() {
     // Виведення перевезень
     for (const auto& p : pasazhyrList) {
         std::cout << "\nТип перевезення: " << p->getType() << "\n";  // Виводимо тип перевезення
-        display.show(*p);
-        if (auto* poizd = dynamic_cast<Poizd*>(p)) {
-            display.showPassengers(*poizd);
-        } else if (auto* avtobus = dynamic_cast<Avtobus*>(p)) {
-            display.showPassengers(*avtobus);
-        }
+        display.show(*p);  // Викликаємо універсальний метод
         std::cout << "---------------------\n";
     }
 
