@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <limits>
 
 using namespace std;
 
@@ -17,19 +18,24 @@ public:
 
     // Метод для введення даних
     void input() {
+        // Не очищуємо буфер на початку, оскільки може бути чистим
         cout << "Введіть назву деталі: ";
-        getline(cin,name);
+        getline(cin, name); // Читання назви деталі
+
         cout << "Введіть артикул деталі: ";
-        cin >> article;
+        getline(cin, article); // Читання артикулу деталі
 
         // Введення і перевірка ціни
-        do {
+        while (true) {
             cout << "Введіть ціну деталі: ";
-            cin >> price;
-            if (price < 0) {
-                cout << "Помилка. Ціна не може бути від'ємною. Спробуйте ще раз." << endl;
+            if (cin >> price && price >= 0) {
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищення буфера після введення числа
+                break; // Коректне введення ціни
             }
-        } while (price < 0);  // повторювати, поки не введено коректну ціну
+            cout << "Помилка. Ціна має бути додатною. Спробуйте ще раз." << endl;
+            cin.clear(); // Скидання стану потоку
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищення буфера
+        }
     }
 
     // Метод для виведення даних
@@ -92,25 +98,36 @@ int main() {
 
     // Вибір фільтру
     int choice;
-    bool validChoice = false;  // прапорець для перевірки коректного вибору
+    bool validChoice = false;
 
     while (!validChoice) {
-        cout << "Фільтрувати за: 1 - Ціною, 2 - Артикулом. Виберіть: ";
-        cin >> choice;
+        cout << "\nФільтрувати за: 1 - Ціною, 2 - Артикулом. Виберіть: ";
+        if (!(cin >> choice)) {
+            cout << "Невірний ввід! Будь ласка, введіть число 1 або 2." << endl;
+            cin.clear(); // Скидання стану потоку
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищення буфера
+            continue;
+        }
 
         if (choice == 1) {
             // Фільтрація за ціною
             double priceCriteria;
             cout << "Введіть мінімальну ціну для фільтру: ";
-            cin >> priceCriteria;
+            if (!(cin >> priceCriteria)) {
+                cout << "Невірний ввід ціни! Спробуйте ще раз." << endl;
+                cin.clear(); // Скидання стану потоку
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищення буфера
+                continue;
+            }
             displayByPrice(details, priceCriteria);
             validChoice = true;
         }
         else if (choice == 2) {
             // Фільтрація за артикулом
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Очищення буфера перед зчитуванням артикулу
             string articleCriteria;
             cout << "Введіть артикул для фільтру: ";
-            cin >> articleCriteria;
+            getline(cin, articleCriteria);
             displayByArticle(details, articleCriteria);
             validChoice = true;
         }
